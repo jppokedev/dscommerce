@@ -14,7 +14,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(unique = true)// faz com que esse email seja unico, o banco ao tranformar em tabela, nao autoriza repetir essa variavel
     private String email;
+
     private String phone;
     private LocalDate birthDate;
     private String password;
