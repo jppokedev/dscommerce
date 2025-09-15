@@ -1,9 +1,11 @@
 package com.bitworld.dscommerce.controllers;
 
+import com.bitworld.dscommerce.dto.ProductDTO;
 import com.bitworld.dscommerce.entities.Product;
-import com.bitworld.dscommerce.repositories.ProductRepository;
+import com.bitworld.dscommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,13 +16,11 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    private ProductRepository repository;// aqui eu estou fazendo a associação do controle com o componete que faz as consultar no banco que no caso e o repo
+    private ProductService service;
 
-    @GetMapping// informa qual o metodo rest vai ser usado e faz o mapeamento ou seja quando eu chamar o /products ele vai vir aqui buscar esse metodo
-    public String teste(){
-        Optional<Product> result = repository.findById(1L);// vai la no banco e pega o produto com id1
-        Product product = result.get();//transforma o result em produto
-        return product.getName();// pegar o nome do produto
+    @GetMapping(value = "/{id}")// informa qual o metodo rest vai ser usado e faz o mapeamento ou seja quando eu chamar o /products ele vai vir aqui buscar esse metodo
+    public ProductDTO findById(@PathVariable Long id){// a @pathVariable pega o valor passado na url e passa como parametro para o metodo
+        return service.findById(id);// ta pegando o dto findbyid e retornando ele pra requisição
     }
 
 }
