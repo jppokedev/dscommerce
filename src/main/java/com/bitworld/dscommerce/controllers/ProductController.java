@@ -38,4 +38,10 @@ public class ProductController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);// devo fazer isso pq é uma boa pratica para retorna o codigo correto na requisição e ter o link do recurso criado que é a uri criada a cima
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto){
+         dto = service.update(id, dto);
+         return ResponseEntity.ok(dto);
+    }
 }
