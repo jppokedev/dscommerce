@@ -4,10 +4,12 @@ import com.bitworld.dscommerce.dto.ProductDTO;
 import com.bitworld.dscommerce.entities.Product;
 import com.bitworld.dscommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -19,5 +21,11 @@ public class ProductService {
     public ProductDTO findById(Long id){
         Product product = repository.findById(id).get(); //vai la no repo pegar o produto pelo id que eu passeo no metodo converte pra produto
         return new ProductDTO(product);// pega o produto convertido e devolve como um productDto
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAll(Pageable pageable){ // esse Page é um tipo especial de coleção do spring, como se fosse um List, so que pra paginação
+        Page<Product> result = repository.findAll(pageable);
+        return result.map(x -> new ProductDTO(x)); // aqui vai .map direito pq o tipo Page ja é um stream
     }
 }
