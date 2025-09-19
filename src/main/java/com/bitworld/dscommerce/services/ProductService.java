@@ -3,10 +3,15 @@ package com.bitworld.dscommerce.services;
 import com.bitworld.dscommerce.dto.ProductDTO;
 import com.bitworld.dscommerce.entities.Product;
 import com.bitworld.dscommerce.repositories.ProductRepository;
+import com.bitworld.dscommerce.services.exceptions.DatabaseException;
+import com.bitworld.dscommerce.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,7 +24,7 @@ public class ProductService {
 
     @Transactional(readOnly = true) // essa anotação tem que ser do spring, nao pode ser do jakarta, esse readOnly fala que esse metodo é so pra leitura
     public ProductDTO findById(Long id){
-        Product product = repository.findById(id).get(); //vai la no repo pegar o produto pelo id que eu passeo no metodo converte pra produto
+        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado!")); //vai la no repo pegar o produto pelo id que eu passeo no metodo converte pra produto
         return new ProductDTO(product);// pega o produto convertido e devolve como um productDto
     }
 
@@ -38,15 +43,29 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto){
-        Product entity = repository.getReferenceById(id); // serve pra instanciar um produto com a referencia passada do id, ele nao vai no banco de dados, mas é um obj monitorado pela jpa
-        copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
-        return new ProductDTO(entity);
+        try{
+            Product entity = repository.getReferenceById(id); // serve pra instanciar um produto com a referencia passada do id, ele nao vai no banco de dados, mas é um obj monitorado pela jpa
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new ProductDTO(entity);
+        }
+        catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException("Recurso não encontrado!");
+        }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id){
-        repository.deleteById(id);
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado!");
+        }
+        try{
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Falha de integridade referencial!");
+        }
+
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity){
