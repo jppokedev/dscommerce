@@ -27,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){ // o Pageable faz a paginação do findAll, tem que ser o import do springframework.data.domain.Pageable;
-        Page<ProductDTO> dto = service.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable){ // o Pageable faz a paginação do findAll, tem que ser o import do springframework.data.domain.Pageable;
+        Page<ProductDTO> dto = service.findAll(name, pageable);
         return ResponseEntity.ok(dto);
     }
 
