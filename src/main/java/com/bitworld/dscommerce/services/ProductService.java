@@ -1,7 +1,9 @@
 package com.bitworld.dscommerce.services;
 
+import com.bitworld.dscommerce.dto.CategoryDTO;
 import com.bitworld.dscommerce.dto.ProductDTO;
 import com.bitworld.dscommerce.dto.ProductMinDTO;
+import com.bitworld.dscommerce.entities.Category;
 import com.bitworld.dscommerce.entities.Product;
 import com.bitworld.dscommerce.repositories.ProductRepository;
 import com.bitworld.dscommerce.services.exceptions.DatabaseException;
@@ -64,7 +66,6 @@ public class ProductService {
         catch (DataIntegrityViolationException e){
             throw new DatabaseException("Falha de integridade referencial!");
         }
-
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity){
@@ -72,5 +73,12 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
     }
 }
