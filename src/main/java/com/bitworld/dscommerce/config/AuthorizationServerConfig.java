@@ -8,9 +8,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 
-import com.bitworld.dscommerce.config.customgrant.CustomPasswordAuthenticationConverter;
-import com.bitworld.dscommerce.config.customgrant.CustomPasswordAuthenticationProvider;
-import com.bitworld.dscommerce.config.customgrant.CustomUserAuthorities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +44,9 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.bitworld.dscommerce.config.customgrant.CustomPasswordAuthenticationConverter;
+import com.bitworld.dscommerce.config.customgrant.CustomPasswordAuthenticationProvider;
+import com.bitworld.dscommerce.config.customgrant.CustomUserAuthorities;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -71,7 +71,7 @@ public class AuthorizationServerConfig {
 	@Order(2)
 	public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
 
-		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+		http.securityMatcher("/oauth2/**", "/.well-hnown/**").with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
 
 		// @formatter:off
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
