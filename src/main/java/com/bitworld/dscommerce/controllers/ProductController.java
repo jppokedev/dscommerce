@@ -20,7 +20,6 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     // informa qual o metodo rest vai ser usado e faz o mapeamento ou seja quando eu chamar o /products ele vai vir aqui buscar esse metodo
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {// a @pathVariable pega o valor passado na url e passa como parametro para o metodo
