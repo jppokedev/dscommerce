@@ -1,6 +1,7 @@
 package com.bitworld.dscommerce.controllers;
 
 import com.bitworld.dscommerce.dto.ProductDTO;
+import com.bitworld.dscommerce.dto.ProductMinDTO;
 import com.bitworld.dscommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable){ // o Pageable faz a paginação do findAll, tem que ser o import do springframework.data.domain.Pageable;
-        Page<ProductDTO> dto = service.findAll(name, pageable);
+    public ResponseEntity<Page<ProductMinDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable){ // o Pageable faz a paginação do findAll, tem que ser o import do springframework.data.domain.Pageable;
+        Page<ProductMinDTO> dto = service.findAll(name, pageable);
         return ResponseEntity.ok(dto);
     }
 

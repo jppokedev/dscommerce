@@ -1,6 +1,7 @@
 package com.bitworld.dscommerce.services;
 
 import com.bitworld.dscommerce.dto.ProductDTO;
+import com.bitworld.dscommerce.dto.ProductMinDTO;
 import com.bitworld.dscommerce.entities.Product;
 import com.bitworld.dscommerce.repositories.ProductRepository;
 import com.bitworld.dscommerce.services.exceptions.DatabaseException;
@@ -27,9 +28,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){ // esse Page é um tipo especial de coleção do spring, como se fosse um List, so que pra paginação
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){ // esse Page é um tipo especial de coleção do spring, como se fosse um List, so que pra paginação
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x)); // aqui vai .map direito pq o tipo Page ja é um stream
+        return result.map(x -> new ProductMinDTO(x)); // aqui vai .map direito pq o tipo Page ja é um stream
     }
     @Transactional
     public ProductDTO insert(ProductDTO dto){
