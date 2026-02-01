@@ -3,7 +3,7 @@
 ## 📌 Sobre o projeto
 
 **DSCommerce** é uma API RESTful backend construída em **Java usando Spring Boot**, com foco em fornecer os recursos essenciais de um sistema de e-commerce robusto e escalável.  
-Este projeto demonstra boas práticas de arquitetura backend, organização de camadas, persistência com JPA/Hibernate e integração com banco de dados relacional — ideal para fortalecer seu portfólio para vagas de emprego.
+Este projeto demonstra boas práticas de arquitetura backend, organização de camadas, persistência com JPA/Hibernate e integração com banco de dados relacional.
 
 ---
 
@@ -92,12 +92,21 @@ src/
  └── main/
      ├── java/
      │   └── com/dscommerce/
+     │       ├── config/
+     │           └── customgrant/
      │       ├── controllers/
-     │       ├── services/
+     │           └── handlers/
+     │       ├── dto/
+     │       ├── entities/
+     │       ├── projection/
      │       ├── repositories/
-     │       └── models/
+     │       ├── services/
+     │           └── exceptions/
      └── resources/
          ├── application.properties
+         ├── application-dev.properties
+         ├── application-prod.properties
+         ├── application-test.properties
 ```
 ### 🧑‍💻 Autor
 
