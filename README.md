@@ -21,6 +21,10 @@ Este projeto demonstra boas práticas de arquitetura backend, organização de c
 
 ---
 
+## Modelo conceitual
+
+![ORM](https://github.com/jppokedev/assets/blob/main/ORM.png)
+
 ## 📦 Funcionalidades
 
 ### 🧑‍💻 Usuários
@@ -60,3 +64,44 @@ Antes de iniciar, certifique-se de ter instalado:
 
 ```bash
 git clone https://github.com/jppokedev/dscommerce.git
+
+```
+### 🧠 Executar backend
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+### 🛠️ Configuração de banco de dados
+
+Você pode usar o H2 (in memory) ou configurar uma instância real de MySQL/PostgreSQL no arquivo application.properties, por exemplo:
+
+```bash
+spring.datasource.url=jdbc:mysql://localhost:3306/dscommerce
+spring.datasource.username=root
+spring.datasource.password=sua_senha
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### 📁 Estrutura do projeto
+
+O código segue uma arquitetura em camadas:
+
+```bash
+src/
+ └── main/
+     ├── java/
+     │   └── com/dscommerce/
+     │       ├── controllers/
+     │       ├── services/
+     │       ├── repositories/
+     │       └── models/
+     └── resources/
+         ├── application.properties
+```
+### 🧑‍💻 Autor
+
+Desenvolvido por João Paulo (jppokedev)
+📌 GitHub: https://github.com/jppokedev
+
+📫 LinkedIn: https://www.linkedin.com/in/jo%C3%A3o-paulo-fonseca-6b261a23b
